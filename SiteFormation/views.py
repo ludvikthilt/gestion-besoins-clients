@@ -14,3 +14,11 @@ def about(request):
 
 def course(request):
     return render(request, 'Course.html')
+
+
+def contact(request):
+    return render(request, 'Contact.html')
+
+
+def register(request):
+    return render(request, 'Register.html')
