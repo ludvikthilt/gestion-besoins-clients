@@ -10,3 +10,7 @@ def home(request):
 
 def about(request):
     return render(request, 'AboutUs.html')
+
+
+def course(request):
+    return render(request, 'Course.html')
