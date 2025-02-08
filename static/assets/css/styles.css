@@ -7833,7 +7833,7 @@ hr {
 }
 
 .bg_image--11 {
-  background-image: url(../images/bg/bg-image-11.jpg);
+  background-image: url(/static/image/Home/aditya-naidu-E12bfkJylUA-unsplash.jpg);
 }
 
 .bg_image--12 {
@@ -7852,13 +7852,9 @@ hr {
   background-image: url(../images/bg/bg-image-15.jpg);
 }
 
-.bg_image--16 {
-  background-image: url(../images/bg/bg-image-16.jpg);
-}
 
-.bg_image--17 {
-  background-image: url(../images/bg/bg-image-17.jpg);
-}
+
+
 
 .bg_image--18 {
   background-image: url(../images/bg/bg-image-18.jpg);
@@ -7872,9 +7868,7 @@ hr {
   background-image: url(../images/bg/bg-image-20.jpg);
 }
 
-.bg_image--21 {
-  background-image: url(../images/bg/bg-image-21.jpg);
-}
+
 
 .bg_image--22 {
   background-image: url(../images/bg/bg-image-22.jpg);
