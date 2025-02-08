@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <a class="close_side_menu" href="javascript:void(0);"></a>
+    <a class="close_side_menu" href="javascript:void(0);" xmlns="http://www.w3.org/1999/html"></a>
 
     <div class="rbt-conatct-area bg-gradient-11 rbt-section-gap">
         <div class="container">
@@ -72,7 +72,8 @@
                         <form id="contact-form" method="POST" action="mail.php" class="rainbow-dynamic-form max-width-auto">
                             <div class="form-group">
                                 <input name="contact-name" id="contact-name" type="text">
-                                <label>Name</label>
+                                    <label>Name</label>
+                                
                                 <span class="focus-border"></span>
                             </div>
                             <div class="form-group">
