@@ -10,13 +10,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb-inner text-center">
-                        <h2 class="title">Login & Register</h2>
+                        <h2 class="title">Connexion & Inscription</h2>
                         <ul class="page-list">
-                            <li class="rbt-breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="rbt-breadcrumb-item"><a href="index.html">Accueil</a></li>
                             <li>
                                 <div class="icon-right"><i class="feather-chevron-right"></i></div>
                             </li>
-                            <li class="rbt-breadcrumb-item active">Login & Register</li>
+                            <li class="rbt-breadcrumb-item active">Connexion & Inscription</li>
                         </ul>
                     </div>
                 </div>
@@ -31,16 +31,16 @@
 
                 <div class="col-lg-6">
                     <div class="rbt-contact-form contact-form-style-1 max-width-auto">
-                        <h3 class="title">Login</h3>
+                        <h3 class="title">Connexion</h3>
                         <form class="max-width-auto">
                             <div class="form-group">
-                                <input name="con_name" type="text" />
-                                <label>Username or email *</label>
+                                <input name="con_name" type="text" required />
+                                <label>Nom d'utilisateur ou email *</label>
                                 <span class="focus-border"></span>
                             </div>
                             <div class="form-group">
-                                <input name="con_email" type="email">
-                                <label>Password *</label>
+                                <input name="con_email" type="password" required>
+                                <label>Mot de passe *</label>
                                 <span class="focus-border"></span>
                             </div>
 
@@ -48,12 +48,12 @@
                                 <div class="col-lg-6">
                                     <div class="rbt-checkbox">
                                         <input type="checkbox" id="rememberme" name="rememberme">
-                                        <label for="rememberme">Remember me</label>
+                                        <label for="rememberme">Se souvenir de moi</label>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="rbt-lost-password text-end">
-                                        <a class="rbt-btn-link" href="#">Lost your password?</a>
+                                        <a class="rbt-btn-link" href="#">Mot de passe oublié ?</a>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="form-submit-group">
                                 <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
                                     <span class="icon-reverse-wrapper">
-                                        <span class="btn-text">Log In</span>
+                                        <span class="btn-text">Se connecter</span>
                                     <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                     <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                     </span>
@@ -73,42 +73,41 @@
 
                 <div class="col-lg-6">
                     <div class="rbt-contact-form contact-form-style-1 max-width-auto">
-                        <h3 class="title">Register</h3>
+                        <h3 class="title">Inscription</h3>
                         <form class="max-width-auto">
                             <div class="form-group">
-                                <input name="register-email" type="text" />
-                                <label>Email address *</label>
+                                <input name="register-email" type="email" required />
+                                <label>Adresse email *</label>
                                 <span class="focus-border"></span>
                             </div>
 
                             <div class="form-group">
-                                <input name="register_user" type="text">
-                                <label>Username *</label>
+                                <input name="register_user" type="text" required>
+                                <label>Nom d'utilisateur *</label>
                                 <span class="focus-border"></span>
                             </div>
 
                             <div class="form-group">
-                                <input name="register_password" type="password">
-                                <label>Password *</label>
+                                <input name="register_password" type="password" required>
+                                <label>Mot de passe *</label>
                                 <span class="focus-border"></span>
                             </div>
 
                             <div class="form-group">
-                                <input name="register_conpassword" type="password">
-                                <label>Confirm Password *</label>
+                                <input name="register_conpassword" type="password" required>
+                                <label>Confirmer le mot de passe *</label>
                                 <span class="focus-border"></span>
                             </div>
 
                             <div class="form-submit-group">
                                 <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
                                     <span class="icon-reverse-wrapper">
-                                        <span class="btn-text">Register</span>
+                                        <span class="btn-text">S'inscrire</span>
                                     <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                     <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                     </span>
                                 </button>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -117,25 +116,24 @@
         </div>
     </div>
 
-
     <div class="rbt-newsletter-area bg-gradient-6 ptb--50">
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-5 col-md-12 col-12">
                     <div class="inner">
                         <div class="section-title text-center text-lg-start">
-                            <h4 class="title"><strong>Subscribe</strong> <br /> <span class="w-400">Our Newsletter</span></h4>
+                            <h4 class="title"><strong>Abonnez-vous</strong> <br /> <span class="w-400">À notre Newsletter</span></h4>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-12 col-12 text-start text-sm-end">
                     <form action="#" class="newsletter-form-1 me-0">
-                        <input type="email" placeholder="Enter Your E-Email">
+                        <input type="email" placeholder="Entrez votre E-Mail" required>
                         <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse">
                             <span class="icon-reverse-wrapper">
-                        <span class="btn-text">Subscribe</span>
-                            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                <span class="btn-text">S'abonner</span>
+                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                             </span>
                         </button>
                     </form>
