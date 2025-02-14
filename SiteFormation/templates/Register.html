@@ -41,7 +41,7 @@
                                     {% endfor %}
                                 </div>
                          {% endif %}
-                        <form method="POST" action="{% url 'register' %}" class="max-width-auto">
+                        <form method="POST" action="{% url 'login' %}" class="max-width-auto">
                             {% csrf_token %}
                             <div class="form-group">
                                 <input name="username" type="text" required />
@@ -49,7 +49,7 @@
                                 <span class="focus-border"></span>
                             </div>
                             <div class="form-group">
-                                <input name="password1" type="password" required>
+                                <input name="password" type="password" required>
                                 <label>Mot de passe *</label>
                                 <span class="focus-border"></span>
                             </div>

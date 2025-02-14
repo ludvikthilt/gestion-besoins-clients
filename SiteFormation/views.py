@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -31,25 +31,33 @@ def contact(request):
 
 def register(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = True  # Change to False if email verification is needed
-            user.save()
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
 
-            # Uncomment for email verification
-            # token = str(uuid.uuid4())
-            # verification_url = request.build_absolute_uri(
-            #     reverse('verify_email', args=[token])
-            # )
-            # send_verification_email(user.email, verification_url)
+        errors = []
+
+        if password1 != password2:
+            errors.append("Les mots de passe ne correspondent pas")
+
+        if not errors:
+
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password1
+            )
 
             login(request, user)
             messages.success(request, 'Compte créé avec succès!')
             return redirect('profile')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form': form})
+
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+
+    return render(request, 'register.html')
 
 
 def login_view(request):
@@ -92,11 +100,10 @@ def profile(request):
     return render(request, 'profile.html', {'form': form})
 
 
-'''
 @user_passes_test(lambda u: u.role == 'admin')
 def user_list_view(request):
     users = User.objects.all()
-    return render(request, 'users/user_list.html', {'users': users})
+    return render(request, 'user_list.html', {'users': users})
 
 
 @user_passes_test(lambda u: u.role == 'admin')
@@ -115,4 +122,3 @@ def send_verification_email(email, verification_url):
         [email],
         fail_silently=False,
     )
-'''
