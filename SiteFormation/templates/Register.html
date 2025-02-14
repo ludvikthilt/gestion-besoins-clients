@@ -33,6 +33,15 @@
                     <div class="rbt-contact-form contact-form-style-1 max-width-auto">
                         <h3 class="title">Connexion</h3>
                         <form class="max-width-auto">
+                           {% if messages %}
+                                <div class="messages">
+                                    {% for message in messages %}
+                                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                                        {{ message }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             <div class="form-group">
                                 <input name="con_name" type="text" required />
                                 <label>Nom d'utilisateur ou email *</label>
@@ -75,6 +84,15 @@
                     <div class="rbt-contact-form contact-form-style-1 max-width-auto">
                         <h3 class="title">Inscription</h3>
                         <form class="max-width-auto">
+                            {% if messages %}
+                                <div class="messages">
+                                    {% for message in messages %}
+                                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                                        {{ message }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             <div class="form-group">
                                 <input name="register-email" type="email" required />
                                 <label>Adresse email *</label>
@@ -116,29 +134,5 @@
         </div>
     </div>
 
-    <div class="rbt-newsletter-area bg-gradient-6 ptb--50">
-        <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-5 col-md-12 col-12">
-                    <div class="inner">
-                        <div class="section-title text-center text-lg-start">
-                            <h4 class="title"><strong>Abonnez-vous</strong> <br /> <span class="w-400">À notre Newsletter</span></h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7 col-md-12 col-12 text-start text-sm-end">
-                    <form action="#" class="newsletter-form-1 me-0">
-                        <input type="email" placeholder="Entrez votre E-Mail" required>
-                        <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse">
-                            <span class="icon-reverse-wrapper">
-                                <span class="btn-text">S'abonner</span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                            </span>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 {% endblock %}
