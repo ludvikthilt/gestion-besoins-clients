@@ -11,4 +11,14 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
 
     path('register/', views.register, name='register'),
+
+    path('register/', views.register, name='register'),
+
+    path('logout/', views.logout, name='logout'),
+
+    path('profile/', views.profile, name='profile'),
+
+    #path('users/', views.user_list, name='user_list'),
+
+    #path('users/<int:user_id>/toggle-active/', views.user_toggle_active, name='user_toggle_active'),
 ]
