@@ -1,0 +1,30 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - test
+  - deploy
+
+install:
+  stage: build
+  script:
+    - npm install
+
+test:
+  stage: test
+  script:
+    - npm install
+    - npm test
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying application..."
+    - npm install
+    - npm start
+  only:
+    - deploy
