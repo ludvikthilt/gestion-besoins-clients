@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "$PORT:$PORT"
+    environment:
+      - PORT=${PORT:-3000}
+      - NODE_ENV=production
+    restart: always
