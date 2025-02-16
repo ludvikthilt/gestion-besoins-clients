@@ -56,6 +56,7 @@ deploy:
     
     # Afficher des informations de déploiement
     - echo "Déploiement terminé. L'application est accessible via Ngrok."
+    - ngrok url
   
   # Déployer uniquement sur la branche deploy
   only:
