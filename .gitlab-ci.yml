@@ -1,30 +1,66 @@
 image: node:latest
 
+# Configuration du cache
 cache:
   paths:
     - node_modules/
 
+# Définition des stages
 stages:
   - build
   - test
   - deploy
 
+# Installation des dépendances
 install:
   stage: build
   script:
     - npm install
+    - npm install ngrok express dotenv
 
+# Exécution des tests
 test:
   stage: test
   script:
-    - npm install
     - npm test
 
+# Déploiement avec Ngrok
 deploy:
   stage: deploy
   script:
-    - echo "Deploying application..."
+    - echo "Déploiement de l'application avec Ngrok..."
+    
+    # Installation de Ngrok CLI
+    - npm install -g ngrok
+    
+    # Configuration Ngrok
+    - ngrok authtoken $NGROK_AUTH_TOKEN
+    
+    # Installer les dépendances
     - npm install
-    - npm start
+    
+    # Démarrer le serveur en arrière-plan
+    - npm start &
+    
+    # Attendre que le serveur démarre
+    - sleep 5
+    
+    # Exposer le port via Ngrok
+    - ngrok http 3000 > /dev/null &
+    
+    # Attendre que Ngrok génère l'URL
+    - sleep 10
+    
+    # Récupérer et afficher l'URL publique
+    - ngrok url
+    
+    # Afficher des informations de déploiement
+    - echo "Déploiement terminé. L'application est accessible via Ngrok."
+  
+  # Déployer uniquement sur la branche deploy
   only:
     - deploy
+  
+  # Variables secrètes
+  variables:
+    NGROK_AUTH_TOKEN: $NGROK_AUTH_TOKEN
