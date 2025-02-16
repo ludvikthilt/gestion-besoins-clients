@@ -1,4 +1,9 @@
-image: node:latest
+# Utiliser une image Docker officielle comme base
+image: docker:latest
+
+# Services Docker nécessaires
+services:
+  - docker:dind
 
 # Configuration du cache
 cache:
@@ -11,57 +16,43 @@ stages:
   - test
   - deploy
 
-# Installation des dépendances
-install:
+# Étape de construction de l'image Docker
+build:
   stage: build
   script:
-    - npm install
-    - npm install ngrok express dotenv
+    - docker build -t mon-application .
+    - docker save mon-application > image.tar
+  artifacts:
+    paths:
+      - image.tar
 
-# Exécution des tests
+# Tests dans un conteneur
 test:
   stage: test
   script:
-    - npm test
+    - docker load < image.tar
+    - docker run mon-application npm test
 
-# Déploiement avec Ngrok
+# Déploiement
 deploy:
   stage: deploy
   script:
-    - echo "Déploiement de l'application avec Ngrok..."
+    - docker load < image.tar
     
-    # Installation de Ngrok CLI
-    - npm install -g ngrok
+    # Installation de Ngrok
+    - docker run -d --name mon-app mon-application
     
-    # Configuration Ngrok
-    - ngrok authtoken $NGROK_AUTH_TOKEN
+    # Exposer avec Ngrok
+    - docker run -d \
+      -e NGROK_AUTHTOKEN=$NGROK_AUTH_TOKEN \
+      --network host \
+      ngrok/ngrok http host.docker.internal:3000
     
-    # Installer les dépendances
-    - npm install
-    
-    # Démarrer le serveur en arrière-plan
-    - npm start &
-    
-    # Attendre que le serveur démarre
-    - sleep 5
-    
-    # Exposer le port via Ngrok
-    - ngrok http 3000 > /dev/null &
-    
-    # Attendre que Ngrok génère l'URL
-    - sleep 10
-    
-    # Récupérer et afficher l'URL publique
-    - ngrok url
-    
-    # Afficher des informations de déploiement
-    - echo "Déploiement terminé. L'application est accessible via Ngrok."
-    - ngrok url
+    # Afficher l'URL de déploiement
+    - docker logs ngrok
   
-  # Déployer uniquement sur la branche deploy
   only:
-    - deploy
+    - main
   
-  # Variables secrètes
   variables:
     NGROK_AUTH_TOKEN: $NGROK_AUTH_TOKEN
