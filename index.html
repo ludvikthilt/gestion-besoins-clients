@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionnaire des Besoins Clients</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Gestionnaire des Besoins Clients</h1>
+            <p>Suivez et gérez les besoins de vos clients en temps réel</p>
+        </div>
+
+        <div class="form-container">
+            <h2>Nouveau Besoin</h2>
+            <form id="needForm">
+                <div class="form-group">
+                    <label for="clientName">Nom du Client</label>
+                    <input type="text" id="clientName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="needTitle">Titre du Besoin</label>
+                    <input type="text" id="needTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="needDescription">Description</label>
+                    <textarea id="needDescription" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="priority">Priorité</label>
+                    <select id="priority" required>
+                        <option value="low">Basse</option>
+                        <option value="medium">Moyenne</option>
+                        <option value="high">Haute</option>
+                    </select>
+                </div>
+
+                <button type="submit">Enregistrer</button>
+            </form>
+        </div>
+
+        <div class="needs-container">
+            <h2>Besoins Clients</h2>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher par nom client, titre ou description...">
+            </div>
+
+            <div class="filters">
+                <select id="priorityFilter">
+                    <option value="">Toutes les priorités</option>
+                    <option value="high">Haute</option>
+                    <option value="medium">Moyenne</option>
+                    <option value="low">Basse</option>
+                </select>
+
+                <select id="statusFilter">
+                    <option value="">Tous les statuts</option>
+                    <option value="nouveau">Nouveau</option>
+                    <option value="en-cours">En cours</option>
+                    <option value="complete">Complété</option>
+                </select>
+            </div>
+
+            <div id="needsList"></div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
