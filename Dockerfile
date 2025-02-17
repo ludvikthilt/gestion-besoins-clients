@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Installer des dépendances système nécessaires
-RUN apk add --no-cache python3 make g++
+RUN apk add --no-cache python3 make g++ postgresql-client
 
 # Définir le répertoire de travail
 WORKDIR /app
