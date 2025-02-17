@@ -2,32 +2,17 @@
 const JsonManager = {
     async readData() {
         try {
-            const response = await fetch('http://localhost:3000/data/needs.json');
-            if (!response.ok) throw new Error('Erreur de lecture');
-            return await response.json();
+            const response = await fetch('/data/needs.json');
+            if (!response.ok) {
+                console.error('Erreur de lecture:', response.status, response.statusText);
+                throw new Error('Erreur de lecture');
+            }
+            const data = await response.json();
+            console.log('Données récupérées:', data.needs);
+            return data;
         } catch (error) {
-            console.error('Erreur de lecture:', error);
+            console.error('Erreur de lecture détaillée:', error);
             return { needs: [], lastUpdate: new Date().toISOString() };
-        }
-    },
-
-    async writeData(data) {
-        try {
-            const response = await fetch('http://localhost:3000/data/needs.json', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    needs: data,
-                    lastUpdate: new Date().toISOString()
-                })
-            });
-            
-            if (!response.ok) throw new Error('Erreur d\'écriture');
-            const result = await response.json();
-            return result.success;
-        } catch (error) {
-            console.error('Erreur d\'écriture:', error);
-            return false;
         }
     }
 };
@@ -52,7 +37,7 @@ const ClientNeedsManager = {
         this.showLoading();
         try {
             const data = await JsonManager.readData();
-            this.needs = data.needs || [];
+            this.needs = (data.needs || []).sort((a, b) => new Date(b.date) - new Date(a.date));
             this.displayNeeds();
         } catch (error) {
             console.error('Erreur d\'initialisation:', error);
@@ -62,20 +47,41 @@ const ClientNeedsManager = {
         }
     },
 
-    async addNeed(need) {
+    async addNeed(needData) {
         this.showLoading();
         try {
-            need.id = Date.now();
-            need.status = 'nouveau';
-            need.date = new Date().toISOString();
-            this.needs.unshift(need);
-            
-            if (await JsonManager.writeData(this.needs)) {
-                this.displayNeeds();
-                showNotification('Besoin ajouté avec succès');
-                return true;
+            const need = {
+                id: Date.now(), 
+                clientName: needData.clientName,
+                title: needData.title,
+                description: needData.description || '',
+                priority: needData.priority,
+                status: 'nouveau',
+                date: new Date().toISOString()
+            };
+
+            console.log('Besoin à ajouter:', need);
+
+            const response = await fetch('/data/needs.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(need)
+            });
+
+            const responseData = await response.json();
+            console.log('Réponse du serveur:', responseData);
+
+            if (!response.ok) {
+                console.error('Erreur serveur:', responseData);
+                showNotification(responseData.error || 'Erreur lors de l\'ajout', 'error');
+                return false;
             }
-            throw new Error('Échec de la sauvegarde');
+
+            await this.initialize();
+            showNotification('Besoin ajouté avec succès');
+            return true;
         } catch (error) {
             console.error('Erreur d\'ajout:', error);
             showNotification('Erreur lors de l\'ajout du besoin', 'error');
@@ -88,14 +94,45 @@ const ClientNeedsManager = {
     async updateStatus(id, newStatus) {
         this.showLoading();
         try {
-            const needIndex = this.needs.findIndex(need => need.id === id);
-            if (needIndex !== -1) {
-                this.needs[needIndex].status = newStatus;
-                if (await JsonManager.writeData(this.needs)) {
-                    this.displayNeeds();
-                    showNotification(`Statut mis à jour: ${newStatus}`);
-                }
+            // Trouver le besoin à mettre à jour
+            const needIndex = this.needs.findIndex(need => {
+                // Conversion explicite pour la comparaison
+                return Number(need.id) === Number(id);
+            });
+
+            if (needIndex === -1) {
+                console.error('Aucun besoin trouvé avec cet ID');
+                showNotification('Besoin non trouvé', 'error');
+                return;
             }
+
+            // Créer une copie du besoin avec le nouveau statut
+            const updatedNeed = {
+                ...this.needs[needIndex],
+                status: newStatus
+            };
+
+            console.log('Besoin à mettre à jour:', updatedNeed);
+
+            const response = await fetch('/data/needs.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedNeed)
+            });
+
+            const responseData = await response.json();
+            console.log('Réponse du serveur:', responseData);
+
+            if (!response.ok) {
+                console.error('Erreur de mise à jour:', responseData);
+                throw new Error(responseData.error || 'Erreur lors de la mise à jour du statut');
+            }
+
+            await this.initialize();
+            
+            showNotification(`Statut mis à jour: ${newStatus}`);
         } catch (error) {
             console.error('Erreur de mise à jour:', error);
             showNotification('Erreur lors de la mise à jour du statut', 'error');
@@ -109,17 +146,32 @@ const ClientNeedsManager = {
         
         this.showLoading();
         try {
-            this.needs = this.needs.filter(need => need.id !== id);
-            if (await JsonManager.writeData(this.needs)) {
-                this.displayNeeds();
-                showNotification('Besoin supprimé');
+            const response = await fetch(`/data/needs.json/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error('Erreur de suppression: ' + errorText);
             }
+
+            await this.initialize();
+            showNotification('Besoin supprimé');
         } catch (error) {
             console.error('Erreur de suppression:', error);
             showNotification('Erreur lors de la suppression', 'error');
         } finally {
             this.showLoading(false);
         }
+    },
+
+    getStatusLabel(status) {
+        const statusLabels = {
+            'nouveau': 'Nouveau',
+            'en-cours': 'En cours',
+            'complete': 'Complété'
+        };
+        return statusLabels[status] || status;
     },
 
     displayNeeds() {
@@ -142,7 +194,7 @@ const ClientNeedsManager = {
             <div class="need-card priority-${need.priority}">
                 <h3>
                     ${need.title}
-                    <span class="status-badge status-${need.status}">${need.status}</span>
+                    <span class="status-badge status-${need.status}">${this.getStatusLabel(need.status)}</span>
                 </h3>
                 <p><strong>Client:</strong> ${need.clientName}</p>
                 <p><strong>Description:</strong> ${need.description}</p>
@@ -154,7 +206,7 @@ const ClientNeedsManager = {
                     </button>
                     <button onclick="ClientNeedsManager.updateStatus(${need.id}, 'en-cours')"
                             ${need.status === 'en-cours' ? 'disabled' : ''}>
-                        En cours
+                    En cours
                     </button>
                     <button onclick="ClientNeedsManager.updateStatus(${need.id}, 'complete')"
                             ${need.status === 'complete' ? 'disabled' : ''}>

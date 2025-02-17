@@ -1,8 +1,9 @@
 :root {
-    --primary-color: #2563eb;
-    --secondary-color: #1e40af;
-    --background-color: #f3f4f6;
-    --text-color: #1f2937;
+    --primary-color: #ffff00;
+    --secondary-color: #4b4b4b;
+    --background-color: #0a0a0a;
+    --text-color: #e0e0e0;
+    --card-background: #1a1a1a;
 }
 
 * {
@@ -25,10 +26,10 @@ body {
 }
 
 .header {
-    background-color: white;
+    background-color: var(--card-background);
     padding: 1rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(255, 255, 0, 0.1);
     margin-bottom: 2rem;
 }
 
@@ -38,10 +39,10 @@ body {
 }
 
 .form-container, .needs-container {
-    background-color: white;
+    background-color: var(--card-background);
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(255, 255, 0, 0.1);
     margin-bottom: 2rem;
 }
 
@@ -53,19 +54,22 @@ label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
+    color: var(--primary-color);
 }
 
 input, textarea, select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #d1d5db;
+    border: 1px solid #4b4b4b;
     border-radius: 4px;
     margin-bottom: 1rem;
+    background-color: #2a2a2a;
+    color: var(--text-color);
 }
 
 button {
     background-color: var(--primary-color);
-    color: white;
+    color: #0a0a0a;
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 4px;
@@ -75,16 +79,16 @@ button {
 }
 
 button:hover {
-    background-color: var(--secondary-color);
+    background-color: #cccc00;
 }
 
 button:disabled {
-    background-color: #9ca3af;
+    background-color: #4b4b4b;
     cursor: not-allowed;
 }
 
 .need-card {
-    background-color: #f8fafc;
+    background-color: var(--card-background);
     padding: 1rem;
     border-radius: 4px;
     margin-bottom: 1rem;
@@ -94,12 +98,12 @@ button:disabled {
 
 .need-card:hover {
     transform: translateX(5px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(255, 255, 0, 0.2);
 }
 
-.priority-high { border-left-color: #dc2626; }
-.priority-medium { border-left-color: #f59e0b; }
-.priority-low { border-left-color: #10b981; }
+.priority-high { border-left-color: #ff4d4d; }
+.priority-medium { border-left-color: #ffa500; }
+.priority-low { border-left-color: #32cd32; }
 
 .status-badge {
     display: inline-block;
@@ -111,18 +115,18 @@ button:disabled {
 }
 
 .status-nouveau {
-    background-color: #dbeafe;
-    color: #1e40af;
+    background-color: #1a1a4d;
+    color: #8080ff;
 }
 
 .status-en-cours {
-    background-color: #fef3c7;
-    color: #92400e;
+    background-color: #4d3d00;
+    color: #ffd700;
 }
 
 .status-complete {
-    background-color: #d1fae5;
-    color: #065f46;
+    background-color: #004d1a;
+    color: #00ff55;
 }
 
 .filters {
@@ -152,20 +156,20 @@ button:disabled {
     right: 20px;
     padding: 1rem;
     border-radius: 4px;
-    background-color: #10b981;
-    color: white;
+    background-color: var(--primary-color);
+    color: #0a0a0a;
     display: none;
     animation: slideIn 0.3s ease-out;
     z-index: 1000;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(255, 255, 0, 0.2);
 }
 
 .delete-btn {
-    background-color: #dc2626 !important;
+    background-color: #8b0000 !important;
 }
 
 .delete-btn:hover {
-    background-color: #b91c1c !important;
+    background-color: #a00000 !important;
 }
 
 @keyframes slideIn {
@@ -179,7 +183,7 @@ button:disabled {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(10, 10, 10, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -190,7 +194,7 @@ button:disabled {
     content: "";
     width: 50px;
     height: 50px;
-    border: 5px solid #f3f3f3;
+    border: 5px solid #2a2a2a;
     border-top: 5px solid var(--primary-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
