@@ -1,20 +1,26 @@
-# Utiliser une image Node.js officielle
-FROM node:latest
+# Utiliser une image Node.js LTS pour la stabilité
+FROM node:18-alpine
+
+# Installer des dépendances système nécessaires
+RUN apk add --no-cache python3 make g++
 
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers de dépendances
+# Copier package.json et package-lock.json
 COPY package*.json ./
 
-# Installer les dépendances
+# Installation des dépendances
 RUN npm install
 
 # Copier le reste des fichiers du projet
 COPY . .
 
-# Exposer le port
-EXPOSE 3000
+# Créer le dossier data s'il n'existe pas et définir les permissions
+RUN mkdir -p /app/data && chmod 777 /app/data
+
+# Exposer le port (Railway le substituera automatiquement)
+EXPOSE ${PORT:-3000}
 
 # Commande de démarrage
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
